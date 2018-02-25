@@ -1,4 +1,5 @@
 import React from 'react';
+import Playlist from './components/Playlist/Playlist';
 import SearchBar from './components/SearchBar/SearchBar';
 import './App.css';
 import SearchResults from './components/SearchResults/SearchResults';
@@ -9,6 +10,7 @@ function App() {
       <SearchBar />
       <div className="App-playlist">
         <SearchResults />
+        <Playlist />
       </div>
     </div>
   );
