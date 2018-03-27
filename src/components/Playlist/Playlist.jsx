@@ -7,11 +7,21 @@ class Playlist extends React.Component {
   constructor(props) {
     super(props);
     this.handleNameChange = this.handleNameChange.bind(this);
+    // this.handleSave = this.handleSave.bind(this);
   }
 
   handleNameChange(e) {
     this.props.onNameChange(e.target.value);
   }
+
+  // handleSave(e) {
+  //   // this.props.searchSpotify(
+  //   //   this.state.query,
+  //   //   this.state.type,
+  //   // );
+  //   this.props.onSave();
+  //   // e.preventDefault();
+  // }
 
   render() {
     return (

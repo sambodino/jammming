@@ -67,8 +67,36 @@ const Spotify = {
     console.log('NO ACCESS TOKEN');
     return Promise.resolve([]);
   },
-  saveToPlaylist() {
-    return undefined;
+  saveToPlaylist(tracks, title) {
+    if (!tracks || !title) {
+      return;
+    }
+
+    const headers = new Headers({
+      Authorization: `Bearer ${accessToken}`,
+    });
+
+    let userId;
+    fetch('https://api.spotify.com/v1/me', {
+      headers,
+    }).then(response => response.json())
+      .then((json) => {
+        userId = json.id;
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ name: title }),
+        });
+      })
+      .then(response => response.json())
+      .then((json) => {
+        const playListId = json.id;
+        return fetch(`https://api.spotify.com/v1/users/${userId}/playlists/${playListId}/tracks`, {
+          method: 'POST',
+          headers,
+          body: JSON.stringify({ uris: tracks }),
+        });
+      });
   },
 };
 
