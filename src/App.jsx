@@ -15,6 +15,7 @@ class App extends React.Component {
     };
     this.searchSpotify = this.searchSpotify.bind(this);
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
     this.saveToPlayList = this.saveToPlayList.bind(this);
     this.changePlaylistName = this.changePlaylistName.bind(this);
   }
@@ -29,6 +30,13 @@ class App extends React.Component {
   addTrack(track) {
     const tracks = this.state.playlist;
     tracks.push(track);
+    this.setState({ playlist: tracks });
+  }
+
+  removeTrack(track) {
+    const tracks = this.state.playlist;
+    const i = tracks.indexOf(track);
+    tracks.splice(i, 1);
     this.setState({ playlist: tracks });
   }
 
@@ -56,6 +64,7 @@ class App extends React.Component {
             <SearchResults results={this.state.searchResults} onAdd={this.addTrack} />
             <Playlist
               onSave={this.saveToPlaylist}
+              onRemoval={this.removeTrack}
               playlist={this.state.playlist}
               onNameChange={this.changePlaylistName}
             />

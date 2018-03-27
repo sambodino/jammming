@@ -7,10 +7,40 @@ class Track extends React.Component {
     super(props);
 
     this.addTrack = this.addTrack.bind(this);
+    this.removeTrack = this.removeTrack.bind(this);
   }
 
   addTrack(e) {
     this.props.onAdd(this.props.track);
+  }
+
+  removeTrack(e) {
+    this.props.onRemoval(this.props.track);
+  }
+
+  renderAction() {
+    if (this.props.isPlaylistTrack) {
+      return (
+        <a
+          className="Track-action"
+          onClick={this.removeTrack}
+          onKeyDown={() => {}}
+          role="button"
+          tabIndex={0}
+        >
+        -
+        </a>);
+    }
+    return (
+      <a
+        className="Track-action"
+        onClick={this.addTrack}
+        onKeyDown={() => {}}
+        role="button"
+        tabIndex={0}
+      >
+      +
+      </a>);
   }
 
   render() {
@@ -20,15 +50,7 @@ class Track extends React.Component {
           <h3>{this.props.track.name}</h3>
           <p>{this.props.track.artist} | {this.props.track.album}</p>
         </div>
-        <a
-          className="Track-action"
-          onClick={this.addTrack}
-          onKeyDown={() => {}}
-          role="button"
-          tabIndex={0}
-        >
-        +
-        </a>
+        {this.renderAction()}
       </div>
     );
   }
@@ -37,6 +59,8 @@ class Track extends React.Component {
 Track.propTypes = {
   track: PropTypes.object, // TODO: change this to a shape
   onAdd: PropTypes.func.isRequired,
+  onRemoval: PropTypes.func.isRequired,
+  isPlaylistTrack: PropTypes.bool.isRequired,
 };
 
 Track.defaultProps = {
