@@ -57,7 +57,7 @@ class Track extends React.Component {
 }
 
 Track.propTypes = {
-  track: PropTypes.object, // TODO: change this to a shape
+  track: PropTypes.object,
   onAdd: PropTypes.func.isRequired,
   onRemoval: PropTypes.func.isRequired,
   isPlaylistTrack: PropTypes.bool.isRequired,

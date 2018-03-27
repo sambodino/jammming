@@ -1,16 +1,6 @@
-import { access } from "fs";
-
 const clientId = encodeURIComponent('53cdabe063b7489290f7a682478d9759');
-const clientSecret = 'ca5d04a5ed834a52ba96d3c703b96f46';
 const redirectUri = encodeURIComponent('http://localhost:3000/');
 let accessToken = '';
-// const scope = ''; TODO: add a scope for search.
-// let state = ''; TODO: add state to /authorize.
-// const authorize = `https://accounts.spotify.com/authorize?client_id=${clientId}&response_type=token&scope=playlist-modify-public&redirect_uri=${redirectUri}`;
-// window.location = authorize;
-// const params = Spotify.getHashParams();
-// const accessToken = params.access_token;
-// return accessToken;
 
 const Spotify = {
   getAccessToken() {
@@ -27,11 +17,10 @@ const Spotify = {
     window.location = authorize;
     return false;
   },
-  search(query, type) {
-    const accessToken = Spotify.getAccessToken();
+  search(query) {
+    accessToken = Spotify.getAccessToken();
     const url = `https://api.spotify.com/v1/search?type=track&q=${query}`;
     if (accessToken) {
-      console.log('GOT ACCESS TOKEN');
       return fetch(url, {
         headers: new Headers({
           Authorization: `Bearer ${accessToken}`,
@@ -41,14 +30,12 @@ const Spotify = {
           console.log(`Looks like there was a problem. Status Code: ${response.statusText}`);
           throw Error(response.statusText);
         }
-        console.log(response.status);
         return response.json();
       }).then((json) => {
         const {
           tracks,
         } = json;
         if (tracks) {
-          console.log(`Returning ${tracks.items.length} tracks.`);
           return tracks.items.map(item => ({
             id: item.id,
             name: item.name,
@@ -64,7 +51,6 @@ const Spotify = {
           return [];
         });
     }
-    console.log('NO ACCESS TOKEN');
     return Promise.resolve([]);
   },
   saveToPlaylist(tracks, title) {
