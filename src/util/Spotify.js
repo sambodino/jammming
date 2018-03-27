@@ -69,7 +69,7 @@ const Spotify = {
   },
   saveToPlaylist(tracks, title) {
     if (!tracks || !title) {
-      return;
+      return Promise.resolve();
     }
 
     const headers = new Headers({
@@ -96,7 +96,12 @@ const Spotify = {
           headers,
           body: JSON.stringify({ uris: tracks }),
         });
+      })
+      .catch((error) => {
+        console.log(`Something went wrong: ${error}`);
+        return Promise.resolve();
       });
+    return Promise.resolve();
   },
 };
 
