@@ -8,8 +8,12 @@ const Spotify = {
       return accessToken;
     }
     const userAccessTokenMatch = window.location.href.match(/access_token=([^&]*)/);
-    if (userAccessTokenMatch) {
-      accessToken = userAccessTokenMatch[1];
+    const tokenExpiresInMatch = window.location.href.match(/expires_in=([^&]*)/);
+
+    if (userAccessTokenMatch && tokenExpiresInMatch) {
+      [, accessToken] = userAccessTokenMatch;
+      const expiresIn = Number(tokenExpiresInMatch[1]);
+      window.setTimeout(() => { accessToken = ''; }, expiresIn * 1000);
       window.history.pushState('Access Token', null, '/');
       return accessToken;
     }
@@ -57,6 +61,8 @@ const Spotify = {
     if (!tracks || !title) {
       return Promise.resolve();
     }
+
+    accessToken = Spotify.getAccessToken();
 
     const headers = new Headers({
       Authorization: `Bearer ${accessToken}`,
