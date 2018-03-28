@@ -23,7 +23,10 @@ class App extends React.Component {
   searchSpotify(query) {
     Spotify.search(query).then((results) => {
       this.setState({ searchResults: results });
-    });
+    })
+      .catch((reason) => {
+        console.log(`Handling rejected search (${reason}).`);
+      });
   }
 
   addTrack(track) {

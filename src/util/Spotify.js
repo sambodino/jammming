@@ -31,8 +31,7 @@ const Spotify = {
         }),
       }).then((response) => {
         if (!response.ok) {
-          console.log(`Looks like there was a problem. Status Code: ${response.statusText}`);
-          throw Error(response.statusText);
+          Promise.reject(new Error(`Error trying to get tracks: ${response.statusText}`));
         }
         return response.json();
       }).then((json) => {
@@ -48,14 +47,12 @@ const Spotify = {
             uri: item.uri,
           }));
         }
-        return [];
+        console.log('No tracks found.');
+        return Promise.resolve([]);
       })
-        .catch((error) => {
-          console.error(`Error: ${error}`);
-          return [];
-        });
+        .catch(error => Promise.reject(new Error(`Something went wrong: ${error}`)));
     }
-    return Promise.resolve([]);
+    return Promise.reject(new Error('There is no access token.'));
   },
   saveToPlaylist(tracks, title) {
     if (tracks.length === 0 || !title) {
