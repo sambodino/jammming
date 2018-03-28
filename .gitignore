@@ -1,6 +1,7 @@
 node_modules/
 build/
 .vs_code/
+.vscode/
 DS_Store
 .eslintignore
 .eslintrc.json
