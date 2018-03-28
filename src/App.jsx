@@ -36,9 +36,8 @@ class App extends React.Component {
   }
 
   removeTrack(track) {
-    const tracks = this.state.playlist;
-    const i = tracks.indexOf(track);
-    tracks.splice(i, 1);
+    let tracks = this.state.playlist;
+    tracks = tracks.filter(t => t !== track);
     this.setState({ playlist: tracks });
   }
 
