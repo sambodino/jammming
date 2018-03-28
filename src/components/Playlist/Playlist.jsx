@@ -16,7 +16,7 @@ class Playlist extends React.Component {
   render() {
     return (
       <div className="Playlist">
-        <input defaultValue="New Playlist" onChange={this.handleNameChange} />
+        <input value={this.props.playlistName} onChange={this.handleNameChange} />
         <TrackList
           trackList={this.props.playlist}
           onRemoval={this.props.onRemoval}
@@ -40,6 +40,7 @@ Playlist.propTypes = {
   onSave: PropTypes.func.isRequired,
   onRemoval: PropTypes.func.isRequired,
   playlist: PropTypes.array.isRequired,
+  playlistName: PropTypes.string.isRequired,
   onNameChange: PropTypes.func.isRequired,
 };
 

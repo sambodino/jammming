@@ -46,7 +46,10 @@ class App extends React.Component {
         playlistName: 'New Playlist',
         playlist: [],
       });
-    });
+    })
+      .catch((reason) => {
+        console.log(`Handling rejected save (${reason}).`);
+      });
   }
 
   changePlaylistName(name) {
@@ -65,6 +68,7 @@ class App extends React.Component {
               onSave={this.saveToPlaylist}
               onRemoval={this.removeTrack}
               playlist={this.state.playlist}
+              playlistName={this.state.playlistName}
               onNameChange={this.changePlaylistName}
             />
           </div>

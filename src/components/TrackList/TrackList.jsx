@@ -10,6 +10,7 @@ function TrackList({
     <div className="TrackList">
       {trackList.map(track => (
         <Track
+          key={track.id}
           track={track}
           onAdd={onAdd}
           onRemoval={onRemoval}
@@ -22,9 +23,15 @@ function TrackList({
 
 TrackList.propTypes = {
   trackList: PropTypes.array.isRequired,
-  onAdd: PropTypes.func.isRequired,
-  onRemoval: PropTypes.func.isRequired,
-  isPlaylistTrack: PropTypes.bool.isRequired,
+  onAdd: PropTypes.func,
+  onRemoval: PropTypes.func,
+  isPlaylistTrack: PropTypes.bool,
+};
+
+TrackList.defaultProps = {
+  onAdd: () => {},
+  onRemoval: () => {},
+  isPlaylistTrack: false,
 };
 
 export default TrackList;

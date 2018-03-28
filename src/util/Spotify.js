@@ -58,8 +58,8 @@ const Spotify = {
     return Promise.resolve([]);
   },
   saveToPlaylist(tracks, title) {
-    if (!tracks || !title) {
-      return Promise.resolve();
+    if (tracks.length === 0 || !title) {
+      return Promise.reject(new Error('No title or tracks found for playlist.'));
     }
 
     accessToken = Spotify.getAccessToken();
@@ -69,7 +69,7 @@ const Spotify = {
     });
 
     let userId;
-    fetch('https://api.spotify.com/v1/me', {
+    return fetch('https://api.spotify.com/v1/me', {
       headers,
     }).then(response => response.json())
       .then((json) => {
@@ -89,11 +89,7 @@ const Spotify = {
           body: JSON.stringify({ uris: tracks }),
         });
       })
-      .catch((error) => {
-        console.log(`Something went wrong: ${error}`);
-        return Promise.resolve();
-      });
-    return Promise.resolve();
+      .catch(error => Promise.reject(new Error(`Something went wrong: ${error}`)));
   },
 };
 
