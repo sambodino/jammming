@@ -1,33 +1,36 @@
-import React from 'react';
 import Chance from 'chance';
-import { mount } from 'enzyme';
 import Playlist from './Playlist';
+import React from 'react';
+import { expect } from '../../util/chai';
+import { shallow } from 'enzyme';
 
 const chance = new Chance();
 
 describe('Playlist', () => {
+  let wrapper;
   let props;
-  let mountedPlaylist;
-  const playlist = () => {
-    if (!mountedPlaylist) {
-      mountedPlaylist = mount(<Playlist {...props} />);
-    }
-    return mountedPlaylist;
-  };
 
   beforeEach(() => {
     props = {
       playlistName: chance.name(),
-      playlist: [chance.word(), chance.word()],
+      playlist: chance.n(chance.word, 7),
       onRemoval: () => {},
       onSave: () => {},
       onNameChange: () => {},
     };
-    mountedPlaylist = undefined;
+    wrapper = shallow(<Playlist
+      playlist={props.playlist}
+      playlistName={props.playlistName}
+    />);
   });
 
-  it('renders a div', () => {
-    const divs = playlist().find('div');
-    expect(divs.length).toBeGreaterThan(0);
+  it('should have a playlist of songs', () => {
+    expect(wrapper.find('div')).to.have.className('Playlist');
   });
+
+  // it('should update input to the correct value', () => {
+  //   const inputText = chance.word();
+  //   wrapper.instance().handleNameChange(inputText);
+  //   expect(wrapper).to.have.state('playListName').to.equal(inputText);
+  // });
 });
